@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        standalone {
+            storeFile file('D:\\Documents\\Keystores\\standalone-keystore.jks')
+            storePassword 'GfUwyEi0bWBPyEXFsWbs'
+            keyAlias = 'ChateauMeilandSoundboard'
+            keyPassword '3WXaCTWi1vSLxpsoNMT6'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "app.matthbo.chateau_meiland_soundboard"
@@ -14,6 +22,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.standalone
         }
         debug {
             versionNameSuffix = '-debug'
@@ -22,6 +31,7 @@ android {
             versionNameSuffix = '-pre-release'
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.standalone
         }
     }
 }
