@@ -6,12 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-public class SoundClipRecyclerViewAdapter extends RecyclerView.Adapter<SoundClipRecyclerViewAdapter.ViewHolder> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SoundClipRecyclerViewAdapter extends RecyclerView.Adapter<SoundClipRecyclerViewAdapter.ViewHolder> implements SectionIndexer {
 
     private final SoundManager.SoundClip[] mValues;
     private final SoundPlayer soundPlayer;
+    private Integer[] mSectionPositions;
 
     public SoundClipRecyclerViewAdapter(SoundManager.SoundClip[] items, SoundPlayer soundPlayer) {
         mValues = items;
@@ -44,6 +49,32 @@ public class SoundClipRecyclerViewAdapter extends RecyclerView.Adapter<SoundClip
     @Override
     public int getItemCount() {
         return mValues.length;
+    }
+
+    @Override
+    public Object[] getSections() {
+        List<String> sections = new ArrayList<>(27);
+        ArrayList<Integer> sectionPositions = new ArrayList<>(27);
+        for (int i = 0, size = mValues.length; i < size; i++) {
+            String section = String.valueOf(mValues[i].getName().charAt(0)).toUpperCase();
+            if("1234567890".contains(section)) section = "#";
+            if (!sections.contains(section)) {
+                sections.add(section);
+                sectionPositions.add(i);
+            }
+        }
+        mSectionPositions = sectionPositions.toArray(new Integer[0]);
+        return sections.toArray(new String[0]);
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return mSectionPositions[sectionIndex];
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

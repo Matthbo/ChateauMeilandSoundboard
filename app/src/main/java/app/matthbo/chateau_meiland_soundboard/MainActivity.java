@@ -3,7 +3,6 @@ package app.matthbo.chateau_meiland_soundboard;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -12,6 +11,8 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+
+import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,10 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
         SoundManager.loadSounds();
 
-        RecyclerView soundClipRecyclerView = findViewById(R.id.recyclerView_main_soundClip);
+        IndexFastScrollRecyclerView soundClipRecyclerView = findViewById(R.id.recyclerView_main_soundClip);
         soundClipRecyclerView.setHasFixedSize(true);
         soundClipRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         soundClipRecyclerView.setAdapter(new SoundClipRecyclerViewAdapter(SoundManager.getSoundClips(), soundPlayer));
+        soundClipRecyclerView.setIndexBarStrokeVisibility(false);
+        soundClipRecyclerView.setIndexBarTransparentValue(0.25F);
+        soundClipRecyclerView.setPreviewTransparentValue(0.25F);
+        soundClipRecyclerView.setIndexbarMargin(10);
+        soundClipRecyclerView.setIndexbarWidth(32);
 
         ImageButton stopBtn = findViewById(R.id.imageButton_main_stop);
         stopBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,12 +54,10 @@ public class MainActivity extends AppCompatActivity {
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         this.updateVolumeSlider().setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onStopTrackingTouch(SeekBar arg0) {
-            }
+            public void onStopTrackingTouch(SeekBar arg0) {}
 
             @Override
-            public void onStartTrackingTouch(SeekBar arg0) {
-            }
+            public void onStartTrackingTouch(SeekBar arg0) {}
 
             @Override
             public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
